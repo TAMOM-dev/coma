@@ -10,8 +10,15 @@ class ProductRow extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 22),
+      width: double.infinity,
+      //* Item Border
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: theme.colorScheme.onSurface.withValues(alpha: 0.08),
+        ),
+      ),
       child: Row(
         children: [
           //* Product Name
