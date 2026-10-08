@@ -1,3 +1,4 @@
+import 'package:coma/core/theme/app_colors.dart';
 import 'package:coma/data/models/product.dart';
 import 'package:coma/features/home/widgets/product_row.dart';
 import 'package:flutter/material.dart';
@@ -35,17 +36,14 @@ class _ProductListCardState extends State<ProductListCard> {
 
     //* Card with Product List and Pagination
     return Card(
-      clipBehavior:
-          Clip.antiAlias,
+      clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
           //* Card Header
           Container(
             width: double.infinity,
-            color: theme
-                .colorScheme
-                .surfaceContainerHighest, // un tono distinto al body
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            color: AppColors.appBarBackground,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
             child: Row(
               children: [
                 Expanded(
@@ -68,28 +66,30 @@ class _ProductListCardState extends State<ProductListCard> {
             ),
           ),
 
-          // --- Cuerpo: filas de productos ---
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                for (final product in _currentItems) ...[
-                  ProductRow(product: product),
-                  if (product != _currentItems.last)
-                    Divider(
-                      height: 1,
-                      color: theme.colorScheme.onSurface.withValues(
-                        alpha: 0.08,
-                      ),
-                    ),
-                ],
+          //* Product Items
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final product in _currentItems) ...[
+                ProductRow(product: product),
               ],
-            ),
+            ],
           ),
 
-          // --- Paginado: siempre al final ---
-          Padding(
-            padding: const EdgeInsets.all(16),
+          //* Pagination Controls
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.08),
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //* Pagination
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
