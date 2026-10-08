@@ -1,4 +1,5 @@
 import 'package:coma/features/home/widgets/add_product_button.dart';
+import 'package:coma/features/home/widgets/add_product_dialog.dart';
 import 'package:coma/features/home/widgets/module_header.dart';
 import 'package:coma/features/home/widgets/stat_panel.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,10 @@ class ProductsScreen extends StatelessWidget {
           SizedBox(height: 32),
           //*Body
           AddProductButton(
-            onPressed: () {
-              //TODO: Add product button implementation
+            onPressed: () async {
+              final product = await AddProductDialog.show(context);
+              //TODO: Persist the new product
+              if (product == null) return;
             },
           ),
           SizedBox(height: 16),
