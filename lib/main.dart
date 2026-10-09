@@ -1,5 +1,6 @@
 import 'package:coma/core/theme/app_theme.dart';
 import 'package:coma/core/widgets/main_shell.dart';
+import 'package:coma/features/auth/screens/login_screen.dart';
 import 'package:coma/features/home/screens/home_screen.dart';
 import 'package:coma/features/home/screens/products_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: MainShell(
-        titles: ['Inicio', 'Perfil', 'Productos'],
-        pages: [
-          HomeScreen(),
-          Center(child: Text('Profile')),
-          ProductsScreen(),
-        ]
-      ),
+      initialRoute: '/login',
+      routes: {
+        '/login': (_) => const LoginScreen(),
+        '/home': (_) => MainShell(
+          titles: ['Inicio', 'Perfil', 'Productos'],
+          pages: [
+            HomeScreen(),
+            Center(child: Text('Profile')),
+            ProductsScreen(),
+          ]
+        ),
+      },
     );
   }
 }
