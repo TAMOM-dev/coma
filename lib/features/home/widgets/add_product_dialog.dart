@@ -1,4 +1,5 @@
 import 'package:coma/core/theme/app_colors.dart';
+import 'package:coma/core/widgets/form_styles.dart';
 import 'package:coma/data/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -76,11 +77,11 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const _FieldLabel('Nombre del producto'),
+                        const FieldLabel('Nombre del producto'),
                         TextFormField(
                           controller: _nameController,
                           style: const TextStyle(color: AppColors.onSurface),
-                          decoration: _inputDecoration('nombre'),
+                          decoration: formInputDecoration('nombre'),
                           validator: (value) =>
                               (value == null || value.trim().isEmpty) ? 'Requerido' : null,
                         ),
@@ -92,13 +93,13 @@ class _AddProductDialogState extends State<AddProductDialog> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const _FieldLabel('Precio'),
+                                  const FieldLabel('Precio'),
                                   TextFormField(
                                     controller: _priceController,
                                     keyboardType:
                                         const TextInputType.numberWithOptions(decimal: true),
                                     style: const TextStyle(color: AppColors.onSurface),
-                                    decoration: _inputDecoration('\$0.00'),
+                                    decoration: formInputDecoration('\$0.00'),
                                     validator: (value) => double.tryParse(
                                               (value ?? '').replaceAll(',', '.'),
                                             ) ==
@@ -114,7 +115,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const _FieldLabel('Estado'),
+                                  const FieldLabel('Estado'),
                                   _StatusDropdown(
                                     value: _status,
                                     onChanged: (status) => setState(() => _status = status),
@@ -167,36 +168,6 @@ class _AddProductDialogState extends State<AddProductDialog> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  InputDecoration _inputDecoration(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(color: AppColors.onSurfaceVariant),
-      filled: true,
-      fillColor: AppColors.background,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide.none,
-      ),
-    );
-  }
-}
-
-class _FieldLabel extends StatelessWidget {
-  final String text;
-  const _FieldLabel(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 10),
-      child: Text(
-        text,
-        style: const TextStyle(color: AppColors.onSurface, fontSize: 15),
       ),
     );
   }

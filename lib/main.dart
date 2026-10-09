@@ -3,6 +3,7 @@ import 'package:coma/core/widgets/main_shell.dart';
 import 'package:coma/features/auth/screens/login_screen.dart';
 import 'package:coma/features/home/screens/home_screen.dart';
 import 'package:coma/features/home/screens/products_screen.dart';
+import 'package:coma/features/orders/screens/orders_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,11 +22,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (_) => const LoginScreen(),
         '/home': (_) => MainShell(
-          titles: ['Inicio', 'Perfil', 'Productos'],
+          titles: ['Inicio', 'Perfil', 'Productos', 'Pedidos'],
           pages: [
             HomeScreen(),
             Center(child: Text('Profile')),
             ProductsScreen(),
+            OrdersScreen(),
           ]
         ),
       },

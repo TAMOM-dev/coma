@@ -41,6 +41,7 @@ class _MainShellState extends State<MainShell> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Perfil'),
           BottomNavigationBarItem(icon: Icon(Icons.all_inbox), label: 'Productos'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_shipping), label: 'Pedidos'),
         ],
       ),
     );
