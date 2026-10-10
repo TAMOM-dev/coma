@@ -6,6 +6,11 @@ class MainShell extends StatefulWidget {
   final List<String> titles;
   const MainShell({super.key, required this.pages, required this.titles});
 
+  //* Switches the shell to the tab showing a screen of type T, e.g. selectPage<ProductsScreen>(context)
+  static void selectPage<T extends Widget>(BuildContext context) {
+    context.findAncestorStateOfType<_MainShellState>()?._selectPage<T>();
+  }
+
 
   @override
   State<StatefulWidget> createState() => _MainShellState();
@@ -13,6 +18,11 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   int _selectedIndex = 0;
+
+  void _selectPage<T extends Widget>() {
+    final index = widget.pages.indexWhere((page) => page is T);
+    if (index != -1) setState(() => _selectedIndex = index);
+  }
 
   @override 
   Widget build(BuildContext context) {

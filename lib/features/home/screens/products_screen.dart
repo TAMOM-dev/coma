@@ -1,3 +1,4 @@
+import 'package:coma/core/widgets/main_shell.dart';
 import 'package:coma/data/models/product.dart';
 import 'package:coma/features/home/widgets/add_product_button.dart';
 import 'package:coma/features/home/widgets/add_product_dialog.dart';
@@ -8,6 +9,15 @@ import 'package:flutter/material.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
+
+  //* Bumped to ask the screen to expand the out of stock list
+  static final _outOfStockRequests = ValueNotifier<int>(0);
+
+  //* Goes to the products tab with the out of stock list expanded
+  static void showOutOfStock(BuildContext context) {
+    MainShell.selectPage<ProductsScreen>(context);
+    _outOfStockRequests.value++;
+  }
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -28,6 +38,30 @@ class _ProductsScreenState extends State<ProductsScreen> {
   bool _showProducts = false;
   bool _showOutOfStock = false;
   bool _showOrdered = false;
+
+  final _outOfStockKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    ProductsScreen._outOfStockRequests.addListener(_expandOutOfStock);
+  }
+
+  @override
+  void dispose() {
+    ProductsScreen._outOfStockRequests.removeListener(_expandOutOfStock);
+    super.dispose();
+  }
+
+  void _expandOutOfStock() {
+    setState(() => _showOutOfStock = true);
+    //* Scroll the panel into view once the list is laid out
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final panelContext = _outOfStockKey.currentContext;
+      if (panelContext == null) return;
+      Scrollable.ensureVisible(panelContext, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    });
+  }
 
   List<Product> _byStatus(ProductStatus status) =>
       _products.where((product) => product.status == status).toList();
@@ -70,6 +104,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           _ExpandableProductList(visible: _showProducts, products: _products),
           const SizedBox(height: 12),
           StatPanel(
+            key: _outOfStockKey,
             label: 'Out of Stock',
             value: '${outOfStock.length}',
             valueColor: Theme.of(context).colorScheme.primary, // número naranja

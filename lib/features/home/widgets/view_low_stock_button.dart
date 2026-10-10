@@ -1,3 +1,4 @@
+import 'package:coma/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ViewLowStockButton extends StatelessWidget{
@@ -6,20 +7,19 @@ class ViewLowStockButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.2),
-        foregroundColor: theme.colorScheme.onPrimaryContainer,
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.primary,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
       ),
-      child: const Text('Ver productos agotados'),
+      iconAlignment: IconAlignment.end,
+      icon: const Icon(Icons.arrow_forward_rounded, size: 18),
+      label: const Text('Ver productos agotados'),
     );
   }
 }
