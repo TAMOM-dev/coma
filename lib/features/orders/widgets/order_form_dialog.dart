@@ -59,22 +59,32 @@ class _OrderFormDialogState extends State<OrderFormDialog> {
       _products.add(name);
       _productController.clear();
     });
-    _productsFieldKey.currentState?.didChange(_products);
+    _syncProductsField();
   }
 
   void _removeProduct(int index) {
     setState(() => _products.removeAt(index));
-    _productsFieldKey.currentState?.didChange(_products);
+    _syncProductsField();
+  }
+
+  //* Re-validate only if an error is already shown, so it clears without appearing early
+  void _syncProductsField() {
+    final field = _productsFieldKey.currentState;
+    field?.didChange(_products);
+    if (field?.hasError ?? false) field!.validate();
   }
 
   //* Delivery date
   Future<void> _pickDate() async {
     final today = DateUtils.dateOnly(DateTime.now());
+    final initial = _deliveryDate ?? today;
+    final first = DateTime(today.year - 1);
+    final last = DateTime(today.year + 5);
     final picked = await showDatePicker(
       context: context,
-      initialDate: _deliveryDate ?? today,
-      firstDate: DateTime(today.year - 1),
-      lastDate: DateTime(today.year + 5),
+      initialDate: initial,
+      firstDate: initial.isBefore(first) ? initial : first, //* widen range so an older/later saved date fits
+      lastDate: initial.isAfter(last) ? initial : last,
     );
     if (picked == null) return;
     setState(() {
@@ -101,8 +111,10 @@ class _OrderFormDialogState extends State<OrderFormDialog> {
   }
 
   static double? _parsePrice(String text) {
-    final value = double.tryParse(text.trim().replaceAll(',', '.'));
-    return (value == null || !value.isFinite || value < 0) ? null : value;
+    final trimmed = text.trim();
+    if (!RegExp(r'^\d+([.,]\d{1,2})?$').hasMatch(trimmed)) return null;
+    final value = double.tryParse(trimmed.replaceAll(',', '.'));
+    return (value == null || !value.isFinite) ? null : value;
   }
 
   //* Dialog UI

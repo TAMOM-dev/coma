@@ -49,7 +49,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             description: 'Gestiona los activos técnicos y el catálogo de productos con seguimiento en tiempo real e integración con la cadena de suministro.',
           ),
           SizedBox(height: 32),
-          //*Body
+          //*Add Product Button
           AddProductButton(
             onPressed: () async {
               final product = await AddProductDialog.show(context);
@@ -57,6 +57,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               if (product == null) return;
             },
           ),
+          //*Panels
           SizedBox(height: 16),
           //TODO: Add count stream to StatPanel
           StatPanel(

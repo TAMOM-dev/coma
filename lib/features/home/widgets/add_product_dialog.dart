@@ -51,9 +51,16 @@ class _AddProductDialogState extends State<AddProductDialog> {
       Product(
         name: _nameController.text.trim(),
         status: _status,
-        price: double.parse(_priceController.text.replaceAll(',', '.')),
+        price: _parsePrice(_priceController.text)!,
       ),
     );
+  }
+
+  static double? _parsePrice(String text) {
+    final trimmed = text.trim();
+    if (!RegExp(r'^\d+([.,]\d{1,2})?$').hasMatch(trimmed)) return null;
+    final value = double.tryParse(trimmed.replaceAll(',', '.'));
+    return (value == null || !value.isFinite) ? null : value;
   }
 
   //* Dialog UI
@@ -100,12 +107,8 @@ class _AddProductDialogState extends State<AddProductDialog> {
                                         const TextInputType.numberWithOptions(decimal: true),
                                     style: const TextStyle(color: AppColors.onSurface),
                                     decoration: formInputDecoration('\$0.00'),
-                                    validator: (value) => double.tryParse(
-                                              (value ?? '').replaceAll(',', '.'),
-                                            ) ==
-                                            null
-                                        ? 'Inválido'
-                                        : null,
+                                    validator: (value) =>
+                                        _parsePrice(value ?? '') == null ? 'Inválido' : null,
                                   ),
                                 ],
                               ),

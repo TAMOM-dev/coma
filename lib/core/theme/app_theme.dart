@@ -28,12 +28,16 @@ class AppTheme {
 
       //* App bar theme
       appBarTheme: AppBarTheme(
-          backgroundColor: AppColors.appBarBackground,
+          backgroundColor: AppColors.surface,
+          surfaceTintColor: Colors.transparent,
           elevation: 0,
+          scrolledUnderElevation: 0,
+          toolbarHeight: 72,
+          titleSpacing: 24,
           titleTextStyle: const TextStyle(
-            color: AppColors.primary,
+            color: AppColors.onSurface,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 22,
           ),
           iconTheme: IconThemeData(color: AppColors.onSurfaceVariant),
         ),

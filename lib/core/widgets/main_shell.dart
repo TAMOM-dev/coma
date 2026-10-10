@@ -1,3 +1,4 @@
+import 'package:coma/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class MainShell extends StatefulWidget {
@@ -18,15 +19,33 @@ class _MainShellState extends State<MainShell> {
     return Scaffold(
       //*AppBar
       appBar: AppBar(
-        title: Text(widget.titles[_selectedIndex]),
+        title: Row(
+          children: [
+            //* Brand logo
+            Image.asset('assets/images/logo/coma_logo.png', height: 26),
+          ],
+        ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.notifications_none_outlined),
-            onPressed: () {
-              //TODO: Implement notification functionality
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              tooltip: 'Notificaciones',
+              style: IconButton.styleFrom(
+                backgroundColor: AppColors.appBarBackground,
+                foregroundColor: AppColors.onSurface,
+              ),
+              icon: const Icon(Icons.notifications_none_outlined),
+              onPressed: () {
+                //TODO: Implement notification functionality
+              },
+            ),
           ),
         ],
+        //* Subtle separator from the content
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: AppColors.onSurface.withValues(alpha: 0.08)),
+        ),
       ),
       //*Body
       body: IndexedStack(
