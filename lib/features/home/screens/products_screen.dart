@@ -35,7 +35,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     Product(name: 'Producto 7', status: ProductStatus.available, price: 70.0),
   ];
 
-  bool _showProducts = false;
   bool _showOutOfStock = false;
   bool _showOrdered = false;
 
@@ -98,16 +97,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
             label: 'Total Products',
             value: '${_products.length}',
             highlighted: true,
-            expanded: _showProducts,
-            onTap: () => setState(() => _showProducts = !_showProducts),
           ),
-          _ExpandableProductList(visible: _showProducts, products: _products),
           const SizedBox(height: 12),
           StatPanel(
             key: _outOfStockKey,
             label: 'Out of Stock',
             value: '${outOfStock.length}',
             valueColor: Theme.of(context).colorScheme.primary, // número naranja
+            trailingIcon: Icons.production_quantity_limits, // carrito con alerta
             expanded: _showOutOfStock,
             onTap: () => setState(() => _showOutOfStock = !_showOutOfStock),
           ),
